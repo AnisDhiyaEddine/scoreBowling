@@ -10,6 +10,7 @@ export class EndGameComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('EndGameComponent.ngOnInit()');
   }
 
 }

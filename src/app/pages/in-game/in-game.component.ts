@@ -10,6 +10,7 @@ export class InGameComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('InGameComponent.ngOnInit()');
   }
 
 }
