@@ -42,7 +42,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# package-lock.json is not detected by .gitignore, the git repo should be cleaned up as follows:
-# git rm -r --cached .
-# git add .
-# git commit -m "fixed untracked files"
+# Db system
+db.json
