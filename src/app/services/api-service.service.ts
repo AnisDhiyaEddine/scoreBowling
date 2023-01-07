@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class JsonHandlerService {
-  constructor() {}
+export class ApiServiceService {
+
+  constructor() { }
 }
