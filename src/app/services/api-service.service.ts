@@ -37,6 +37,10 @@ export class ApiServiceService {
   }
 
   static async update_current_game(game: game) {
-    await http.patch('current_games', game);
+    await http.post('current_game', game);
+  }
+
+  static async delete_current_game() {
+    await http.post('current_game', {});
   }
 }

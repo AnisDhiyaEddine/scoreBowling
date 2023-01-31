@@ -1,5 +1,4 @@
 import {ApiServiceService} from "../src/app/services/api-service.service";
-import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 
 export type game = {
   id?: number;
@@ -48,7 +47,7 @@ export async function delete_games() {
  */
 export async function get_unachieved_game() {
   const game = await ApiServiceService.get_current_game();
-  return game.id ? game : undefined;
+  return game.rounds ? game : undefined;
 }
 
 /**
@@ -108,16 +107,16 @@ export function get_last_score(player: player): score | undefined {
  * Verify that the last round has been played
  * @param game
  */
-export function is_finished(game: game): boolean {
-  return game.rounds === 0;
+export function is_finished(game: game, current_round: number): boolean {
+  return game.rounds === current_round;
 }
 
 /**
  *
  * @param game
  */
-export function is_last_round(game: game): boolean {
-  return game.rounds === 1;
+export function is_last_round(game: game, current_round: number): boolean {
+  return game.rounds - current_round === 1;
 }
 
 /**
@@ -133,7 +132,6 @@ export function set_date(game: game): void {
  * @param game
  */
 export async function next_round(game: game): Promise<void> {
-  game.rounds--;
   await save_state(game);
 }
 
@@ -149,4 +147,5 @@ async function save_state(game: game): Promise<void> {
  */
 export async function save_game(game: game): Promise<void> {
   await ApiServiceService.save_game(game);
+  await ApiServiceService.delete_current_game();
 }
