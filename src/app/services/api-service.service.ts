@@ -25,7 +25,7 @@ export class ApiServiceService {
 
   static async delete_all_games() {
     const games = await this.get_all_games();
-    const promises = [];
+    const promises = <Promise<void>[]>[];
     for(const game of games)
       if(game.id)
         promises.push(this.delete_game(game.id));
@@ -37,6 +37,6 @@ export class ApiServiceService {
   }
 
   static async update_current_game(game: game) {
-    await http.patch('current_games', game);
+    await http.patch('current_game', game);
   }
 }

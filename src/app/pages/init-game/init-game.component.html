@@ -1,1 +1,50 @@
-<p>init-game works!</p>
+<div class="container">
+  <div>
+    <h1>INIT GAME</h1>
+    <form [formGroup]="controller" (ngSubmit)="onSubmit()" >
+      <div class="form-group mt-2">
+        <label for="nbTour">Nombre de Tour</label>
+        <input
+          type="number"
+          formControlName="nbTour"
+          class="form-control"
+        />
+      </div>
+
+      
+      <div class="form-group mt-3">
+        <label for="nbTour">Nombre de Quilles</label>
+        <input
+          type="number"
+          formControlName="nbQuille"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group mt-3">
+        <label for="nbTour">Nombre de Joueurs</label>
+        <input
+          type="number"
+          formControlName="nbJoueur"
+          class="form-control"
+          name="numPlayers"
+          [(ngModel)]="numPlayers"
+          (ngModelChange)="updatePlayers()"
+        >
+      </div>
+    
+      <div
+        formArrayName="playersCheck"
+        class="form-group mt-3"
+        *ngFor="let player of playersFormArray.controls; let i = index"
+      >
+        <label>Nom du joueur {{i + 1}} :</label>
+        <input class="form-control"  type="text" [formControlName]="i" name="player{{i}}"/>
+      </div>
+
+      <div class="form-group mt-5">
+        <button type="submit" class="btn btn-primary me-3">Valider</button>
+      </div>
+    </form>
+  </div>
+</div>

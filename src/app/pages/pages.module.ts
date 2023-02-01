@@ -6,11 +6,12 @@ import { InitGameComponent } from './init-game/init-game.component';
 import { InGameComponent } from './in-game/in-game.component';
 import { EndGameComponent } from './end-game/end-game.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
-
        HistoryComponent,
        InitGameComponent,
        InGameComponent,
@@ -19,6 +20,9 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
   ], 
   exports: [
     HistoryComponent,

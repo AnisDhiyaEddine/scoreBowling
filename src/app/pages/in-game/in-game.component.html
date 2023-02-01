@@ -1,1 +1,68 @@
-<p>in-game works!</p>
+<div class="container" #appContainer>
+  <h1>Score de Bowling</h1>
+  <form (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <div *ngFor="let player of game.players; index as nbPlayer">
+        <table class="table table-bordered table-dark">
+          <thead>
+            <tr>
+              <td class="col" rowspan="3">{{player.name}}</td>
+              <td *ngFor="let x of [].constructor(game.rounds-1) ; index as i" class="col" colspan="2">Tour : {{ i+1 }}
+              </td>
+              <td class="col" colspan="3">Tour : {{ game.rounds }}</td>
+            </tr>
+            <tr>
+              <td *ngFor="let x of [].constructor(game.rounds) ; index as i" class="">
+
+                <ng-container *ngIf="i%2 == 0; then bon;else pasbon"></ng-container>
+                  <ng-template  #bon>
+                    {{ player.scores[i] ? player.scores[i].first_shoot : ''}} TOTO
+                  </ng-template>
+
+                  <ng-template #pasbon>
+                      {{ player.scores[i] ? player.scores[i].second_shoot : ''}} TITI
+                  </ng-template>
+                  
+              </td>
+              <td *ngFor="let x of [].constructor(game.rounds) ; index as i" class="">
+
+                <ng-container *ngIf="i%2 == 0; then bon;else pasbon"></ng-container>
+                  <ng-template  #bon>
+                    {{ player.scores[i+this.game.rounds] ? player.scores[i+this.game.rounds].first_shoot : ''}}  TITI
+                  </ng-template>
+
+                  <ng-template #pasbon>
+                      {{ player.scores[i+this.game.rounds] ? player.scores[i+this.game.rounds].second_shoot : ''}} TOTO
+                  </ng-template>
+
+              </td>
+              <td class="">
+
+                  {{ player.scores[game.rounds-1] ? player.scores[game.rounds-1].third_shoot : ''}}
+
+              </td>
+            </tr>
+            <tr>
+              <td *ngFor="let x of [].constructor(game.rounds-1) ; index as i" class="" colspan="2">
+                Total :  
+              </td>
+              <td colspan="3">
+                Total : 
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+  </form>
+
+  <div class="form-group" >
+    <div class="form-check form-check-inline" *ngFor="let i of [].constructor(game.pins + 1) ; index as nbPin">
+      <input class="form-check-input" type="radio" name="nbPinRadio" [value]="nbPin" [(ngModel)]="selectedNbPins">
+      <label class="form-check-label">{{nbPin}}</label>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="register_score_tour()">Envoyer</button>
+  </div>
+  
+</div>
