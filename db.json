@@ -1,16 +1,20 @@
 {
   "current_game": {
     "id": 0,
-    "rounds": 6,
-    "pins": 5,
+    "rounds": 3,
+    "pins": 3,
     "date": "",
     "players": [
       {
-        "name": "AA",
+        "name": "df",
         "scores": []
       },
       {
-        "name": "BB",
+        "name": "dsfsdfs",
+        "scores": []
+      },
+      {
+        "name": "dsfsdfdsf",
         "scores": []
       }
     ]

@@ -8,6 +8,7 @@
           type="number"
           formControlName="nbTour"
           class="form-control"
+          min="1"
         />
       </div>
 
@@ -18,6 +19,8 @@
           type="number"
           formControlName="nbQuille"
           class="form-control"
+          min="1"
+          max="30"
         />
       </div>
 
@@ -30,6 +33,7 @@
           name="numPlayers"
           [(ngModel)]="numPlayers"
           (ngModelChange)="updatePlayers()"
+          min="1"
         >
       </div>
     

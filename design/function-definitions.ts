@@ -48,7 +48,7 @@ export async function delete_games() {
  */
 export async function get_unachieved_game() {
   const game = await ApiServiceService.get_current_game();
-  return game.id ? game : undefined;
+  return game.players ? game : undefined;
 }
 
 /**
@@ -80,7 +80,6 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
  */
 export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number): void {
   const last_score = get_last_score(player);
-  console.log(last_score);
   let current_score = val1 + val2 + (val3?? 0);
   if(last_score) {
     if(last_score.first_shoot === nb_pins)

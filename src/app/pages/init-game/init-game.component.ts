@@ -57,8 +57,6 @@ export class InitGameComponent implements OnInit {
           scores : <score[]>[]
         };
       }) );
-
-    console.log(game);
     
     if (this.controller.invalid) {
       console.log('invalid');

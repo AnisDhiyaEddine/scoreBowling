@@ -20,7 +20,7 @@ export class InGameComponent implements OnInit {
   selectedNbPins: number;
   currentTour = 1;
   currentPlayerIndex = 0;
-
+  nbScoreLast = 0;
 
   /////////////////////////////////////////////////////////////////////
 
@@ -33,13 +33,18 @@ export class InGameComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     
-    this.route.params.subscribe((params) => {
-      this.game = JSON.parse(params['data']);
-    });
-
+    this.game = await get_unachieved_game() || { rounds: 0, pins: 0, date: "", players: [] };
+    console.log("1");
+    
     console.log(this.game);
+
+    // this.route.params.subscribe((params) => {
+    //   this.game = JSON.parse(params['data']);
+    // });
+
+    
 
     this.game.players.forEach((player) => {
       this.state[player.name] = {};
@@ -50,10 +55,7 @@ export class InGameComponent implements OnInit {
     });
   }
 
-  onScoreChange(player: player, round: number, property: string, event: any): void {
-    register_score(player, this.game.pins, player.scores[round].first_shoot, player.scores[round].second_shoot, event);
-    console.log("1");
-  }
+
 
   newPinHandler() {
     for (let round = 0; round < this.game.rounds; round++) {
@@ -62,6 +64,7 @@ export class InGameComponent implements OnInit {
           continue;
         }
         for(let shoot = 0; shoot < this.state[player][round].length; shoot++) {
+          
           if(this.state[player][round][shoot] === -1) {
             this.state[player][round][shoot] = this.selectedNbPins;
             return {
@@ -85,13 +88,17 @@ export class InGameComponent implements OnInit {
     }
 
     if (temp.isFull) {
+      
       register_score(
         player,
         this.game.pins, 
         ...(this.state[temp.player][temp.round] as [number, number, number])
       );
-      console.log(this.game);
+      this.nbScoreLast = 0;
+      return;
     }
+
+    this.nbScoreLast = this.selectedNbPins
   }
 
   submitForm() {

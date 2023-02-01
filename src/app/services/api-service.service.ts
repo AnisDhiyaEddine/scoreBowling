@@ -12,7 +12,7 @@ const http = axios.create({ baseURL })
 export class ApiServiceService {
 
   static async get_all_games(): Promise<game[]> {
-    return await http.get('games');
+    return (await http.get('games')).data;
   }
 
   static async save_game(game: game) {
@@ -33,7 +33,7 @@ export class ApiServiceService {
   }
 
   static async get_current_game() : Promise<game> {
-    return await http.get('current_game')
+    return (await http.get('current_game')).data
   }
 
   static async update_current_game(game: game) {
