@@ -78,8 +78,9 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
  * @param val2
  * @param val3
  */
-export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number) : void {
+export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number): void {
   const last_score = get_last_score(player);
+  console.log(last_score);
   let current_score = val1 + val2 + (val3?? 0);
   if(last_score) {
     if(last_score.first_shoot === nb_pins)

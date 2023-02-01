@@ -25,7 +25,7 @@
             <tr>
               <td *ngFor="let x of [].constructor(game.rounds ) ; index as i" 
               [attr.colspan]="state[player.name][i].length" class="col" >
-                Total :  
+                Total : {{ player.scores[i] ? player.scores[i].total : ''}}
               </td>
             </tr>
           </thead>

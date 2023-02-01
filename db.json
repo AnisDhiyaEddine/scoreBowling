@@ -2,15 +2,15 @@
   "current_game": {
     "id": 0,
     "rounds": 6,
-    "pins": 10,
+    "pins": 5,
     "date": "",
     "players": [
       {
-        "name": "TOTO",
+        "name": "AA",
         "scores": []
       },
       {
-        "name": "ANTIIII CON************",
+        "name": "BB",
         "scores": []
       }
     ]

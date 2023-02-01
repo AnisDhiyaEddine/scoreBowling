@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route } from '@angular/router';
 import { game, get_unachieved_game, player, register_score } from 'design/function-definitions';
+import { ignoreElements } from 'rxjs';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class InGameComponent implements OnInit {
       this.game = JSON.parse(params['data']);
     });
 
+    console.log(this.game);
+
     this.game.players.forEach((player) => {
       this.state[player.name] = {};
       for (let i = 0; i < this.game.rounds - 1; i++) {
@@ -51,8 +54,8 @@ export class InGameComponent implements OnInit {
     register_score(player, this.game.pins, player.scores[round].first_shoot, player.scores[round].second_shoot, event);
     console.log("1");
   }
-  
-  register_score_tour() {
+
+  newPinHandler() {
     for (let round = 0; round < this.game.rounds; round++) {
       for (let player in this.state) {
         if(!this.state[player][round].includes(-1)) {
@@ -61,14 +64,34 @@ export class InGameComponent implements OnInit {
         for(let shoot = 0; shoot < this.state[player][round].length; shoot++) {
           if(this.state[player][round][shoot] === -1) {
             this.state[player][round][shoot] = this.selectedNbPins;
-            return;
+            return {
+              round: round,
+              player: player,
+              isFull: !this.state[player][round].includes(-1),
+            };
           }
         }
         return;
       }
     }
+  }
+  
+  register_score_tour() {
+    let temp = this.newPinHandler() || { isFull: false, round: -1, player: "" };
+    
+    let player = this.game.players.find((p) => p.name == temp.player) || {
+      name: "",
+      scores: [],
+    }
 
-    console.log(this.state);
+    if (temp.isFull) {
+      register_score(
+        player,
+        this.game.pins, 
+        ...(this.state[temp.player][temp.round] as [number, number, number])
+      );
+      console.log(this.game);
+    }
   }
 
   submitForm() {
