@@ -1,4 +1,4 @@
-import {ApiServiceService} from "../src/app/services/api-service.service";
+import {ApiServiceService} from "../app/services/api-service.service";
 
 export type game = {
   id?: number;
@@ -57,14 +57,12 @@ export async function get_unachieved_game() {
  * @param players
  */
 export async function create_game(nb_round: number, nb_pins: number, players: player[]): Promise<game> {
-  const game: game = {
+  return await save_state({
     rounds: nb_round,
     pins: nb_pins,
     date: "",
     players: players,
-  };
-  await save_state(game)
-  return game;
+  });
 }
 
 /**
@@ -83,6 +81,8 @@ export function register_score(player: player, nb_pins: number, val1: number, va
   if(last_score) {
     if(last_score.first_shoot === nb_pins)
       last_score.total += current_score;
+    else if(last_score.total === nb_pins)
+      last_score.total += val1;
     current_score += last_score.total;
   }
   const score: score = {
@@ -130,14 +130,14 @@ export function set_date(game: game): void {
 /**
  * Save the state of the game into the json file
  */
-async function save_state(game: game): Promise<void> {
-  await ApiServiceService.update_current_game(game);
+export async function save_state(game: game): Promise<game> {
+  return await ApiServiceService.update_current_game(game);
 }
 
 /**
- * Save the final game into the database and remove the current game
+ * Save the final game into the database
  */
-export async function save_game(game: game): Promise<void> {
-  await ApiServiceService.save_game(game);
+export async function save_game(game: game): Promise<game[]> {
   await ApiServiceService.delete_current_game();
+  return await ApiServiceService.save_game(game);
 }
