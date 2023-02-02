@@ -10,6 +10,7 @@ export type game = {
 }
 
 export type player = {
+  id?: number;
   name: string;
   scores: score[];
 }
@@ -61,7 +62,7 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
   const game: game = {
     rounds: nb_round,
     pins: nb_pins,
-    date: "",
+    date: new Date().toLocaleDateString(),
     players: players,
   };
   await save_state(game)
@@ -108,16 +109,16 @@ export function get_last_score(player: player): score | undefined {
  * Verify that the last round has been played
  * @param game
  */
-export function is_finished(game: game): boolean {
-  return game.rounds === 0;
+export function is_finished(game: game, round: number): boolean {
+  return game.rounds === round;
 }
 
 /**
  *
  * @param game
  */
-export function is_last_round(game: game): boolean {
-  return game.rounds === 1;
+export function is_last_round(game: game, round: number): boolean {
+  return game.rounds - round === 1;
 }
 
 /**
@@ -140,7 +141,7 @@ export async function next_round(game: game): Promise<void> {
 /**
  * Save the state of the game into the json file
  */
-async function save_state(game: game): Promise<void> {
+export async function save_state(game: game): Promise<void> {
   await ApiServiceService.update_current_game(game);
 }
 

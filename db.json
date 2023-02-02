@@ -2,22 +2,166 @@
   "current_game": {
     "id": 0,
     "rounds": 3,
-    "pins": 3,
-    "date": "",
+    "pins": 6,
+    "date": "02/02/2023",
     "players": [
       {
-        "name": "df",
-        "scores": []
+        "id": 1,
+        "name": "dfsdfd",
+        "scores": [
+          {
+            "first_shoot": 5,
+            "second_shoot": 1,
+            "total": 6
+          },
+          {
+            "first_shoot": 3,
+            "second_shoot": 2,
+            "total": 11
+          },
+          {
+            "first_shoot": 3,
+            "second_shoot": 3,
+            "total": 20,
+            "third_shoot": 3
+          }
+        ]
       },
       {
-        "name": "dsfsdfs",
-        "scores": []
+        "id": 2,
+        "name": "sdfsssdf",
+        "scores": [
+          {
+            "first_shoot": 3,
+            "second_shoot": 3,
+            "total": 6
+          },
+          {
+            "first_shoot": 5,
+            "second_shoot": 1,
+            "total": 12
+          },
+          {
+            "first_shoot": 4,
+            "second_shoot": 2,
+            "total": 19,
+            "third_shoot": 1
+          }
+        ]
       },
       {
-        "name": "dsfsdfdsf",
-        "scores": []
+        "id": 3,
+        "name": "dsffsd",
+        "scores": [
+          {
+            "first_shoot": 5,
+            "second_shoot": 1,
+            "total": 6
+          },
+          {
+            "first_shoot": 4,
+            "second_shoot": 2,
+            "total": 12
+          },
+          {
+            "first_shoot": 5,
+            "second_shoot": 1,
+            "total": 20,
+            "third_shoot": 2
+          }
+        ]
       }
     ]
   },
-  "games": []
+  "games": [
+    {
+      "id": 1,
+      "rounds": 4,
+      "pins": 4,
+      "date": "02/02/2023",
+      "players": [
+        {
+          "id": 1,
+          "name": "xcvc",
+          "scores": [
+            {
+              "first_shoot": 3,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 3,
+              "second_shoot": 0,
+              "total": 6
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 6
+            },
+            {
+              "first_shoot": 2,
+              "second_shoot": 1,
+              "third_shoot": 0,
+              "total": 9
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "cvbggd",
+          "scores": [
+            {
+              "first_shoot": 0,
+              "second_shoot": 3,
+              "total": 3
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 2,
+              "second_shoot": 2,
+              "total": 8,
+              "third_shoot": 1
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "sdsdfdfdsff",
+          "scores": [
+            {
+              "first_shoot": 4,
+              "second_shoot": 0,
+              "total": 4
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 4
+            },
+            {
+              "first_shoot": 2,
+              "second_shoot": 0,
+              "total": 6
+            },
+            {
+              "first_shoot": 2,
+              "second_shoot": 2,
+              "total": 11,
+              "third_shoot": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

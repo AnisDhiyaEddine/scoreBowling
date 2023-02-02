@@ -20,12 +20,13 @@ export class InitGameComponent implements OnInit {
   numPlayers: number;
   playersFormArray: FormArray;
   controller: FormGroup;
+  buttonState = true;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.playersFormArray = this.formBuilder.array([]);
@@ -36,6 +37,20 @@ export class InitGameComponent implements OnInit {
       nbJoueur: ['', Validators.required],
       playersCheck: this.playersFormArray,
     });
+
+    this.controller.valueChanges.subscribe(() => {
+      this.buttonState = this.controller.invalid || this.validatePlayersArray();
+    });
+  }
+
+  validatePlayersArray(): boolean {
+    let invalid = false;
+    this.playersFormArray.controls.forEach((control) => {
+      if (control.value === '') {
+        invalid = true;
+      }
+    });
+    return invalid;
   }
 
   updatePlayers() {
@@ -47,22 +62,24 @@ export class InitGameComponent implements OnInit {
 
   async onSubmit() {
     this.submitted = true;
-    //creer jeu
-    const game = await create_game(
-      this.controller.value.nbTour, 
-      this.controller.value.nbQuille, 
-      this.controller.value.playersCheck.map((p) => {
-        return { 
-          name: p,
-          scores : <score[]>[]
-        };
-      }) );
-    
     if (this.controller.invalid) {
       console.log('invalid');
       return;
-    }else{
-      this.router.navigate(['/in-game', { data: JSON.stringify(game) }]);
+    } else {
+      const game = await create_game(
+        this.controller.value.nbTour,
+        this.controller.value.nbQuille,
+        this.controller.value.playersCheck.map((p, index) => {
+          return {
+            id: index + 1,
+            name: p,
+            scores: <score[]>[],
+          };
+        })
+      );
+      console.log(game);
+
+      this.router.navigate(['/in-game']);
     }
   }
 }
