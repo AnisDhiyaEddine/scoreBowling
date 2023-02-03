@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./in-game.component.css']
 })
 export class InGameComponent implements OnInit {
-
-  constructor() { }
-
   ngOnInit(): void {
     console.log('InGameComponent.ngOnInit()');
   }
