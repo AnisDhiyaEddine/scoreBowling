@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from "axios";
-import { game } from "../../../design/function-definitions";
+import { game } from "../../functions/function";
 
 const baseURL = "http://localhost:3000";
 const http = axios.create({ baseURL })
@@ -25,7 +25,7 @@ export class ApiServiceService {
 
   static async delete_all_games() {
     const games = await this.get_all_games();
-    const promises = [];
+    const promises = <Promise<void>[]>[];
     for(const game of games)
       if(game.id)
         promises.push(this.delete_game(game.id));

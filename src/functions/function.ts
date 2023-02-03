@@ -47,7 +47,7 @@ export async function delete_games() {
  */
 export async function get_unachieved_game() {
   const game = await ApiServiceService.get_current_game();
-  return game.rounds ? game : undefined;
+  return game.players ? game : undefined;
 }
 
 /**
@@ -60,7 +60,7 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
   return await save_state({
     rounds: nb_round,
     pins: nb_pins,
-    date: "",
+    date: new Date().toLocaleDateString(),
     players: players,
   });
 }
@@ -90,7 +90,7 @@ export function register_score(player: player, nb_pins: number, val1: number, va
     second_shoot: val2,
     total: current_score
   }
-  if(val3) score.third_shoot = val3;
+  if(val3 || val3 === 0) score.third_shoot = val3;
   player.scores.push(score);
 }
 
@@ -124,7 +124,7 @@ export function is_last_round(game: game, current_round: number): boolean {
  * @param game
  */
 export function set_date(game: game): void {
-  game.date = Date.now().toLocaleString();
+  game.date = new Date().toLocaleDateString();
 }
 
 /**
