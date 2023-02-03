@@ -7,12 +7,12 @@
   <form>
     <div class="form-group">
       <div *ngFor="let player of game.players; index as nbPlayer">
-        <table class="table table-bordered table-dark">
-          <thead>
+        <table class="table table-bordered table-dark" description="Tableau des scores">
+          <tbody>
             <tr>
               <td class="col" rowspan="3">{{player.name}}</td>
               <td *ngFor="let x of [].constructor(game.rounds); 
-                index as i" class="col" [attr.colspan]="state[player.id ?? 0][i].length">
+                index as i" class="col" [attr.colspan]="state[player.id ?? -1][i].length">
                 Tour : {{ i+1 }}
               </td>
             </tr>
@@ -23,7 +23,7 @@
                 == -1 ? '' : state[player.id ?? 0][(i-1)/2][1]
                 }}
               </td>
-              <td class="col" colspan="1">
+              <td *ngIf="lastRound && (state[player.id ?? -1][(game.rounds -1)][1] + state[player.id ?? -1][(game.rounds-1)][0] >= this.game.pins)" class="col" >
                 {{ (state[player.id ?? 0][game.rounds - 1][2]) == -1 ? '' : state[player.id ?? 0][game.rounds - 1][2] }}
               </td>
             </tr>
@@ -33,12 +33,12 @@
                 Total : {{ player.scores[i] ? player.scores[i].total : ''}}
               </td>
             </tr>
-          </thead>
+          </tbody>
         </table>
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="buttonState">
       <div class="form-check form-check-inline"
         *ngFor="let i of [].constructor(game.pins - nbScoreLast + 1) ; index as nbPin">
 

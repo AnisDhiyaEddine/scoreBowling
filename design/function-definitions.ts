@@ -1,5 +1,4 @@
 import {ApiServiceService} from "../src/app/services/api-service.service";
-import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 
 export type game = {
   id?: number;
@@ -49,7 +48,7 @@ export async function delete_games() {
  */
 export async function get_unachieved_game() {
   const game = await ApiServiceService.get_current_game();
-  return game.players ? game : undefined;
+  return game.rounds ? game : undefined;
 }
 
 /**
@@ -59,14 +58,12 @@ export async function get_unachieved_game() {
  * @param players
  */
 export async function create_game(nb_round: number, nb_pins: number, players: player[]): Promise<game> {
-  const game: game = {
+  return await save_state({
     rounds: nb_round,
     pins: nb_pins,
     date: new Date().toLocaleDateString(),
     players: players,
-  };
-  await save_state(game)
-  return game;
+  });
 }
 
 /**
@@ -79,12 +76,14 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
  * @param val2
  * @param val3
  */
-export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number): void {
+export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number) : void {
   const last_score = get_last_score(player);
-  let current_score = val1 + val2 + (val3?? 0);
+  let current_score = val1 + val2 + (val3 ?? 0);
   if(last_score) {
     if(last_score.first_shoot === nb_pins)
       last_score.total += current_score;
+    else if(last_score.first_shoot + last_score.second_shoot === nb_pins)
+      last_score.total += val1;
     current_score += last_score.total;
   }
   const score: score = {
@@ -92,7 +91,7 @@ export function register_score(player: player, nb_pins: number, val1: number, va
     second_shoot: val2,
     total: current_score
   }
-  if(val3) score.third_shoot = val3;
+  if(val3 != undefined) score.third_shoot = val3;
   player.scores.push(score);
 }
 
@@ -109,16 +108,16 @@ export function get_last_score(player: player): score | undefined {
  * Verify that the last round has been played
  * @param game
  */
-export function is_finished(game: game, round: number): boolean {
-  return game.rounds === round;
+export function is_finished(game: game, current_round: number): boolean {
+  return game.rounds === current_round;
 }
 
 /**
  *
  * @param game
  */
-export function is_last_round(game: game, round: number): boolean {
-  return game.rounds - round === 1;
+export function is_last_round(game: game, current_round: number): boolean {
+  return game.rounds - current_round === 1;
 }
 
 /**
@@ -130,24 +129,16 @@ export function set_date(game: game): void {
 }
 
 /**
- * Decrease the number of lasting rounds and save the state of the game
- * @param game
- */
-export async function next_round(game: game): Promise<void> {
-  game.rounds--;
-  await save_state(game);
-}
-
-/**
  * Save the state of the game into the json file
  */
-export async function save_state(game: game): Promise<void> {
-  await ApiServiceService.update_current_game(game);
+export async function save_state(game: game): Promise<game> {
+  return await ApiServiceService.update_current_game(game);
 }
 
 /**
  * Save the final game into the database
  */
-export async function save_game(game: game): Promise<void> {
-  await ApiServiceService.save_game(game);
+export async function save_game(game: game): Promise<game[]> {
+  await ApiServiceService.delete_current_game();
+  return await ApiServiceService.save_game(game);
 }

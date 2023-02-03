@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  FormControl,
   Validators,
   FormArray,
-  AbstractControl,
 } from '@angular/forms';
-import { create_game, game, player, score } from 'design/function-definitions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { create_game, score } from 'design/function-definitions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-init-game',
@@ -24,8 +22,7 @@ export class InitGameComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -64,9 +61,8 @@ export class InitGameComponent implements OnInit {
     this.submitted = true;
     if (this.controller.invalid) {
       console.log('invalid');
-      return;
     } else {
-      const game = await create_game(
+      await create_game(
         this.controller.value.nbTour,
         this.controller.value.nbQuille,
         this.controller.value.playersCheck.map((p, index) => {
@@ -77,8 +73,6 @@ export class InitGameComponent implements OnInit {
           };
         })
       );
-      console.log(game);
-
       this.router.navigate(['/in-game']);
     }
   }

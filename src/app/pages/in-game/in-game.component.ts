@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   game,
   get_unachieved_game,
+  is_last_round,
   register_score,
   save_game,
   save_state,
@@ -19,7 +20,7 @@ export class InGameComponent implements OnInit {
   selectedNbPins: number = 0;
   nbScoreLast = 0;
   buttonState = true;
-
+  lastRound: boolean;
   /////////////////////////////////////////////////////////////////////
 
   state: any = {};
@@ -38,60 +39,56 @@ export class InGameComponent implements OnInit {
       players: [],
     };
 
+    this.lastRound = false;
+
     this.game.players.forEach((player) => {
-      if (player.id) {
-        this.state[player.id] = {};
-        for (let i = 0; i < this.game.rounds; i++) {
-          if (i < this.game.rounds - 1) {
-            if (player.scores[i]) {
-              this.state[player.id][i] = [
-                player.scores[i].first_shoot,
-                player.scores[i].second_shoot,
-              ];
-            } else {
-              this.state[player.id][i] = [-1, -1];
-            }
-          } else {
-            if (this.game.rounds === player.scores.length) {
-              if (player.scores[i - 1]) {
-                this.state[player.id][i] = [
-                  player.scores[i].first_shoot,
-                  player.scores[i].second_shoot,
-                  player.scores[i].third_shoot,
-                ];
-              } else {
-                this.state[player.id][i] = [-1, -1, -1];
-              }
-            } else {
-              this.state[player.id][i] = [-1, -1, -1];
-            }
-          }
+      if (!player.id) {
+        return;
+      }
+    
+      this.state[player.id] = {};
+      for (let i = 0; i < this.game.rounds; i++) {
+        let roundData;
+        if (i < this.game.rounds - 1) {
+          roundData = player.scores[i] ? [player.scores[i].first_shoot, player.scores[i].second_shoot] : [-1, -1];
+        } else {
+          roundData = (this.game.rounds === player.scores.length && player.scores[i - 1]) ? [player.scores[i].first_shoot, player.scores[i].second_shoot, player.scores[i].third_shoot] : [-1, -1, -1];
         }
+        this.state[player.id][i] = roundData;
       }
     });
+
+    if (this.game.players[this.game.players.length - 1].id) {
+      if (
+        !this.state[this.game.players[this.game.players.length - 1].id ?? -1][
+          this.game.rounds - 1
+        ].includes(-1)
+      ) {
+        this.buttonState = false;
+      }
+    }
   }
 
   newPinHandler() {
     const lastPlayerName = this.game.players[this.game.players.length - 1].id;
     for (let round = 0; round < this.game.rounds; round++) {
       for (let player in this.state) {
-        if (!this.state[player][round].includes(-1)) {
-          continue;
-        }
-        for (let shoot = 0; shoot < this.state[player][round].length; shoot++) {
-          if (this.state[player][round][shoot] === -1) {
-            this.state[player][round][shoot] = this.selectedNbPins;
-            return {
-              round: round,
-              player: player,
-              isFull: !this.state[player][round].includes(-1),
-              gameFinished:
-                round === this.game.rounds - 1 &&
-                !this.state[lastPlayerName ?? 0][round].includes(-1),
-            };
+        if (this.state[player][round].includes(-1)) {
+          for (let shoot = 0; shoot < this.state[player][round].length; shoot++) {
+            if (this.state[player][round][shoot] === -1) {
+              this.state[player][round][shoot] = this.selectedNbPins;
+              if (shoot === 2 && this.lastRound && this.state[player][round][0] + this.state[player][round][1] < this.game.pins) {
+                this.state[player][round][2] = 0;
+              }
+              return {
+                round,
+                player,
+                isFull: !this.state[player][round].includes(-1),
+                gameFinished: round === this.game.rounds - 1 && !this.state[lastPlayerName ?? 0][round].includes(-1),
+              };
+            }
           }
         }
-        return;
       }
     }
   }
@@ -103,11 +100,15 @@ export class InGameComponent implements OnInit {
       player: -1,
       gameFinished: false,
     };
+    console.log(temp);
+    
 
     let player = this.game.players.find((p) => p.id == temp.player) || {
       name: '',
       scores: [],
     };
+
+    this.lastRound = is_last_round(this.game, temp.round);
 
     if (temp.isFull) {
       register_score(
@@ -120,9 +121,18 @@ export class InGameComponent implements OnInit {
       if (temp.gameFinished) {
         this.buttonState = false;
       }
-
       this.nbScoreLast = 0;
+
       return;
+    }
+
+    if (is_last_round(this.game, temp.round)) {
+      if (this.state[temp.player][temp.round][1] !== -1) {
+        this.nbScoreLast = 0;
+        return;
+      } else if (this.state[temp.player][temp.round][0] === this.game.pins) {
+        return;
+      }
     }
 
     this.nbScoreLast = this.selectedNbPins;

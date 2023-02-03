@@ -13,7 +13,6 @@ import {
 })
 export class HistoryComponent implements OnInit {
   games: game[] = [];
-  constructor() {}
 
   async ngOnInit(): Promise<void> {
     this.games = await get_games();
