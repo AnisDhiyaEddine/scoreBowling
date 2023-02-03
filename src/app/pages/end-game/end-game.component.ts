@@ -6,9 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./end-game.component.css']
 })
 export class EndGameComponent implements OnInit {
-
-  constructor() { }
-
   ngOnInit(): void {
     console.log('EndGameComponent.ngOnInit()');
   }
