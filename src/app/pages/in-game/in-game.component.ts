@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   game,
   get_unachieved_game,
@@ -26,8 +26,6 @@ export class InGameComponent implements OnInit {
   state: any = {};
 
   constructor(
-    private route: ActivatedRoute,
-    private cd: ChangeDetectorRef,
     private router: Router
   ) {}
 

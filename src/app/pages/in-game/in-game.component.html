@@ -18,13 +18,13 @@
             </tr>
             <tr>
               <td *ngFor="let x of [].constructor(game.rounds * 2) ; index as i" class="col" colspan="1">
-                {{ i % 2 == 0 ? state[player.id ?? 0][i/2][0] == -1 ? '' : state[player.id ?? 0][(i/2)][0] :
+                {{ i % 2 === 0 ? state[player.id ?? 0][i/2][0] === -1 ? '' : state[player.id ?? 0][(i/2)][0] :
                 state[player.id ?? 0][(i-1)/2][1]
-                == -1 ? '' : state[player.id ?? 0][(i-1)/2][1]
+                === -1 ? '' : state[player.id ?? 0][(i-1)/2][1]
                 }}
               </td>
               <td *ngIf="lastRound && (state[player.id ?? -1][(game.rounds -1)][1] + state[player.id ?? -1][(game.rounds-1)][0] >= this.game.pins)" class="col" >
-                {{ (state[player.id ?? 0][game.rounds - 1][2]) == -1 ? '' : state[player.id ?? 0][game.rounds - 1][2] }}
+                {{ (state[player.id ?? 0][game.rounds - 1][2]) === -1 ? '' : state[player.id ?? 0][game.rounds - 1][2] }}
               </td>
             </tr>
             <tr>
