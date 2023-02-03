@@ -1,19 +1,4 @@
 {
   "current_game": {},
-  "games": [
-    {
-      "rounds": 2,
-      "date": "",
-      "pins": 3,
-      "players": [],
-      "id": 1
-    },
-    {
-      "rounds": 0,
-      "pins": 8,
-      "players": [],
-      "date": "",
-      "id": 2
-    }
-  ]
+  "games": []
 }

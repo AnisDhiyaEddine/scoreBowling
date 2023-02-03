@@ -1,5 +1,4 @@
 import * as def from './function'
-import {log} from "util";
 
 describe('AppFunction', () => {
   it('should get a score', () => {
@@ -20,7 +19,7 @@ describe('AppFunction', () => {
       rounds: 0,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     expect(def.is_finished(game, 0)).toBeTruthy();
     game.rounds = 2;
@@ -32,7 +31,7 @@ describe('AppFunction', () => {
       rounds: 3,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     expect(def.is_finished(game, 5)).toBeFalsy()
     game.rounds = 5;
@@ -44,7 +43,7 @@ describe('AppFunction', () => {
       rounds: 4,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     expect(def.is_last_round(game, 3)).toBeTruthy()
   });
@@ -54,7 +53,7 @@ describe('AppFunction', () => {
       rounds: 0,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     expect(def.is_last_round(game, 0)).toBeFalsy()
     game.rounds = 3;
@@ -66,12 +65,12 @@ describe('AppFunction', () => {
   });
 
   it(`'save_date' should update the date`, () => {
-    const date = new Date("29/01/2023").toLocaleString();
+    const date = new Date("21/01/2022").toLocaleDateString();
     const game : def.game = {
       rounds: 0,
       pins: 8,
       players: [],
-      date: date
+      date: "",
     }
     def.set_date(game);
     expect(game.date === date).toBeFalsy();
@@ -82,7 +81,7 @@ describe('AppFunction', () => {
       rounds: 0,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     const state = await def.save_state(game);
     expect(state).toEqual(game);
@@ -93,7 +92,7 @@ describe('AppFunction', () => {
       rounds: 0,
       pins: 8,
       players: [],
-      date: ""
+      date: new Date().toLocaleDateString()
     }
     const games = await def.save_game(game);
     expect(games).toBeTruthy();
@@ -105,7 +104,7 @@ describe('AppFunction', () => {
   });
 
   it(`'delete_game' should delete a specifique game`, async () => {
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
     let games = await def.get_games();
     const game = games[0];
     expect(games.find(g => g.id === game.id)).toBeTruthy();
@@ -115,30 +114,31 @@ describe('AppFunction', () => {
   });
 
   it(`'delete_games' should delete all game`, async () => {
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
     await def.delete_games();
     const games = await def.get_games();
     expect(games.length).toBeFalsy();
   });
 
   it(`'get_unachieved_game' should get the curent_game from database`, async () => {
-    await def.save_state({rounds: 2, date: "", pins: 3, players: []});
+    await def.save_state({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
     const game = await def.get_unachieved_game();
     expect(game).toBeTruthy();
   });
 
   it(`'get_unachieved_game' should not anything get from database if current_game is empty`, async () => {
-    await def.save_game({rounds: 2, date: "", pins: 3, players: []});
+    await def.save_game({rounds: 2, date: new Date().toLocaleDateString(), pins: 3, players: []});
     const game = await def.get_unachieved_game();
     expect(game).toBeFalsy();
   });
 
   it(`'create_game' should create the curent_game in database`, async () => {
-    const to_create : def.game = { rounds: 14, pins: 5, date: "", players: [{ name: "Player1", scores: []}]}
+    const to_create : def.game = { rounds: 14, pins: 5, date: new Date().toLocaleDateString(), players: [{ name: "Player1", scores: []}]}
     const game = await def.create_game(14, 5, [{ name: "Player1", scores: []}]);
     expect(game).toEqual(to_create);
   });
