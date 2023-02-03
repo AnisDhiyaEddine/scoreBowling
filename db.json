@@ -1,4 +1,149 @@
 {
   "current_game": {},
-  "games": []
+  "games": [
+    {
+      "rounds": 3,
+      "pins": 10,
+      "date": "03/02/2023",
+      "players": [
+        {
+          "id": 1,
+          "name": "erggrgreg",
+          "scores": [
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0,
+              "third_shoot": 0
+            }
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "rounds": 4,
+      "pins": 3,
+      "date": "03/02/2023",
+      "players": [
+        {
+          "id": 1,
+          "name": "sdf",
+          "scores": [
+            {
+              "first_shoot": 3,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 3
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 3,
+              "third_shoot": 0
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "dsfdff",
+          "scores": [
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0,
+              "third_shoot": 0
+            }
+          ]
+        }
+      ],
+      "id": 2
+    },
+    {
+      "rounds": 3,
+      "pins": 5,
+      "date": "03/02/2023",
+      "players": [
+        {
+          "id": 1,
+          "name": "sdcdc",
+          "scores": [
+            {
+              "first_shoot": 5,
+              "second_shoot": 0,
+              "total": 5
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 5
+            },
+            {
+              "first_shoot": 5,
+              "second_shoot": 5,
+              "total": 20,
+              "third_shoot": 5
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "ds",
+          "scores": [
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 0,
+              "total": 0
+            },
+            {
+              "first_shoot": 0,
+              "second_shoot": 5,
+              "total": 10,
+              "third_shoot": 5
+            }
+          ]
+        }
+      ],
+      "id": 3
+    }
+  ]
 }
