@@ -152,7 +152,7 @@ describe('AppFunction', () => {
 
   it(`'register_score' should update the previous score array of player if it was a strike`, async () => {
     const player: def.player = { name: "Player1", scores: []}
-    const score_strike : def.score = { first_shoot: 2, second_shoot: 0, total: 6}
+    const score_strike : def.score = { first_shoot: 2, second_shoot: 0, total: 4}
     def.register_score(player, 2, 2, 0);
     def.register_score(player, 2, 1, 1, 2);
     expect(player.scores[0]).toEqual(score_strike);
@@ -164,6 +164,15 @@ describe('AppFunction', () => {
     def.register_score(player, 2, 1, 1);
     def.register_score(player, 2, 1, 1);
     expect(player.scores[0]).toEqual(score_spare);
+  });
+
+  it(`'register_score' should update the two previous scores if both were a strikes`, async () => {
+    const player: def.player = { name: "Player1", scores: []}
+    const score_strike_1 : def.score = { first_shoot: 10, second_shoot: 0, total: 24}
+    def.register_score(player, 10, 10, 0);
+    def.register_score(player, 10, 10, 0);
+    def.register_score(player, 10, 4, 3);
+    expect(player.scores[0]).toEqual(score_strike_1);
   });
 
 });
