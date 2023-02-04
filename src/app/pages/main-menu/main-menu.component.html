@@ -1,1 +1,11 @@
-<p>main-menu works!</p>
+<div class="container-fluid bg-primary text-white text-center rounded p-5">
+  <h1 class="display-3">Bienvenue sur ScoreBowling !</h1>
+  <div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-success mx-3 mt-5" routerLink="/init-game">Jouer</button>
+    <button type="button" class="btn btn-success mx-3 mt-5" routerLink="/history">Historique</button>
+  </div>
+  <div *ngIf="buttonState">
+    <button type="button" class="btn btn-light mx-3 mt-5" routerLink="/in-game" (onclick)="resumeGame()">Reprendre la
+      partie en cours</button>
+  </div>
+</div>

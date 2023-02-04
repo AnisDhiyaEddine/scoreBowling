@@ -1,1 +1,33 @@
-<p>history works!</p>
+<!-- tableau bootstrap qui affiche les infos des parties de bowling -->
+<div class="container-fluid bg-primary text-white text-center rounded p-5">
+  <h1 class="display-3">Historique</h1>
+  <button type="button" class="btn btn-success mx-3 mt-5" routerLink="/">Menu</button>
+</div>
+
+<div class="container mt-5">
+  <div class="card mb-3" *ngFor="let game of games; index as i">
+    <div class="card-header d-flex justify-content-between">
+      Partie n°{{i + 1}} - {{game.date}}
+      <button type="button" class="btn btn-danger" (click)="deleteGame(game.id)">Supprimer</button>
+    </div>
+    <div class="card-body">
+      <table class="table" aria-label="Résumé de la partie" >
+        <thead>
+          <tr>
+            <th scope="col">Joueur</th>
+            <th scope="col" *ngFor="let round of [].constructor(game.rounds);index as nbTour">Tour {{nbTour+1}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let player of game.players">
+            <td>{{player.name}}</td>
+            <td *ngFor="let score of player.scores">{{score.total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="games.length" class="card-footer">
+    <button type="button" class="btn btn-danger" (click)="deleteAllGames()">Supprimer toutes les parties</button>
+  </div>
+</div>

@@ -9,6 +9,7 @@ export type game = {
 }
 
 export type player = {
+  id?: number;
   name: string;
   scores: score[];
 }
@@ -77,11 +78,11 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
  */
 export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number) : void {
   const last_score = get_last_score(player);
-  let current_score = val1 + val2 + (val3?? 0);
+  let current_score = val1 + val2 + (val3 ?? 0);
   if(last_score) {
     if(last_score.first_shoot === nb_pins)
       last_score.total += current_score;
-    else if(last_score.total === nb_pins)
+    else if(last_score.first_shoot + last_score.second_shoot === nb_pins)
       last_score.total += val1;
     current_score += last_score.total;
   }
@@ -90,7 +91,7 @@ export function register_score(player: player, nb_pins: number, val1: number, va
     second_shoot: val2,
     total: current_score
   }
-  if(val3 || val3 === 0) score.third_shoot = val3;
+  if(val3 != undefined) score.third_shoot = val3;
   player.scores.push(score);
 }
 
