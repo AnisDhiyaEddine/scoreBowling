@@ -78,10 +78,16 @@ export async function create_game(nb_round: number, nb_pins: number, players: pl
  */
 export function register_score(player: player, nb_pins: number, val1: number, val2: number, val3?: number) : void {
   const last_score = get_last_score(player);
-  let current_score = val1 + val2 + (val3 ?? 0);
+  let current_score = val1 + val2;
   if(last_score) {
-    if(last_score.first_shoot === nb_pins)
+    if(last_score.first_shoot === nb_pins) {
+      const before_last = get_before_last_score(player);
+      if(before_last && before_last.first_shoot === nb_pins) {
+        before_last.total += val1;
+        last_score.total += val1;
+      }
       last_score.total += current_score;
+    }
     else if(last_score.first_shoot + last_score.second_shoot === nb_pins)
       last_score.total += val1;
     current_score += last_score.total;
@@ -91,7 +97,10 @@ export function register_score(player: player, nb_pins: number, val1: number, va
     second_shoot: val2,
     total: current_score
   }
-  if(val3 != undefined) score.third_shoot = val3;
+  if(val3 != undefined) {
+    score.third_shoot = val3;
+    score.total += val3;
+  };
   player.scores.push(score);
 }
 
@@ -102,6 +111,15 @@ export function register_score(player: player, nb_pins: number, val1: number, va
 export function get_last_score(player: player): score | undefined {
   if(player.scores.length === 0) return undefined;
   return player.scores[player.scores.length - 1];
+}
+
+/**
+ * Gets the score of the last round played
+ * @param player
+ */
+export function get_before_last_score(player: player): score | undefined {
+  if(player.scores.length < 2) return undefined;
+  return player.scores[player.scores.length - 2];
 }
 
 /**
